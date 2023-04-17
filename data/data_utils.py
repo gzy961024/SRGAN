@@ -17,5 +17,6 @@ def gen_image_set(path, des_path):
         os.system('cp %s %s' % (max_name, des_path))
 
 
-
+if not os.path.exists('./new'):
+	os.mkdir('./new')
 gen_image_set('./','./new')
