@@ -30,7 +30,7 @@ def main(input_path, output_path):
 
         out = model(img)
 
-        out_img = ToPILImage(out[0].data.cpu())
+        out_img = ToPILImage()(out[0].data.cpu())
         out_img.save(out_path + 'out_srf_' + str(UPSCALE_FACTOR) + '_' + img_name)
 
 
