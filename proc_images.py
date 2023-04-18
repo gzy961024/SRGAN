@@ -4,11 +4,12 @@ import torch
 from PIL import Image
 from torch.autograd import Variable
 from torchvision.transforms import ToTensor, ToPILImage
+import torch.nn.functional as F
 
 from model import Generator
 
 img_path = './data/new/'
-out_path = './data/new/proc_img/'
+out_path = './data/gen_img/'
 if not os.path.exists(out_path):
     os.mkdir(out_path)
 device = 'cuda:1'
@@ -29,6 +30,10 @@ def main(input_path, output_path):
         img = img.cuda()
 
         out = model(img)
+        if out.shape[2] > out.shape[3]:
+            out = F.interpolate(out, size=[1280, 720])
+        else:
+            out = F.interpolate(out, size=[720, 1280])
 
         out_img = ToPILImage()(out[0].data.cpu())
         out_img.save(out_path + 'out_srf_' + str(UPSCALE_FACTOR) + '_' + img_name)
